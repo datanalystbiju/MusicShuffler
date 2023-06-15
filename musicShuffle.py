@@ -10,6 +10,7 @@ val_list = list(my_songs.values())
 
 # creates a list of all the keys in the dictionary
 key_list = list(my_songs.keys())
+random.shuffle(key_list) # Shuffling songs
 
 # the used songs, that won't be generated randomly
 used_songs = []
@@ -25,34 +26,34 @@ def get_song():
 
     while t == 0:
         # selects random number from my_list
-        song_selection = (random.randrange(len(val_list)) + 1)
+        for key in key_list:
+            song_selection = my_songs[key]
 
-        if song_selection in used_songs:
-            continue
-        else:
-            # takes the song number and uses it as an index for val_list
+            if song_selection not in used_songs:
+                break
+                    # takes the song number and uses it as an index for val_list
 
-            # this is a test
-            # print(f"This is the random song selection {song_selection}")
+        # this is a test
+        # print(f"This is the random song selection {song_selection}")
 
-            # print(val_list)  # this is a test
+        # print(val_list)  # this is a test
 
-            # print(key_list)  # this is a test '''
+        # print(key_list)  # this is a test '''
 
-            song = val_list.index(song_selection)
+        song = val_list.index(song_selection)
 
-            # this is a test
-            # print(f"This is the value that corrisponds with the song selection {song}")
+        # this is a test
+        # print(f"This is the value that corrisponds with the song selection {song}")
 
-            # stores all the selected songs
-            used_songs.append(song_selection)
+        # stores all the selected songs
+        used_songs.append(song_selection)
 
-            print("-----------------------------------------------")
-            print(f'Now Playing...  {key_list[song]}')
-            print("-----------------------------------------------")
-            print("")
+        print("-----------------------------------------------")
+        print(f'Now Playing...  {key_list[song]}')
+        print("-----------------------------------------------")
+        print("")
 
-            t = 1
+        t = 1
 
     # I can figure out how to remove the items in used songs once it hits it's max, and allow the user to repeat
 
@@ -67,18 +68,19 @@ def get_song():
 
 def rewind():
 
-    # index = song_selection.index()
-
-    previous_song = used_songs[-2]
-
-    values = val_list.index(previous_song)
-
-    print("-----------------------------------------------")
-    print(f"Now Playing... {key_list[values]}")
-    print("-----------------------------------------------")
-
-    # works but we now need to remove the value from used_songs, so when we press previous again, it does the next song in the list
-
+    if len(used_songs) >= 2:
+        # Get the previous song from the used_songs list
+        previous_song = used_songs[-2]
+        # Remove the current song from used_songs
+        used_songs.pop()
+        # Get the index of the previous song in val_list
+        index = val_list.index(previous_song)
+        # Print the previous song
+        print("-----------------------------------------------")
+        print(f"Now Playing... {key_list[index]}")
+        print("-----------------------------------------------")
+    else:
+        print("No previous song available.")
 
 num = 0
 
@@ -104,7 +106,6 @@ while num == 0:
         print("Closing Music Player...")
     else:
         print("Please read instructions again.")
-
 
 # Mar 3rd 1:47:38 AM
 # Next steps are to check if song_selection's next generated number equals a value in the used_songs list
